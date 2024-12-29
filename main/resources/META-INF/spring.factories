@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.yrw_.retry.springstarter.TestAutoConfiguration,com.yrw_.retry.TestTry
+

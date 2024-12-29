@@ -1,0 +1,20 @@
+elasticsearch:
+  host: 120.79.176.136
+  port: 9200
+  connTimeout: 3000
+  socketTimeout: 5000
+  connectionRequestTimeout: 500
+
+spring:
+  redis:
+    host: 120.79.176.136
+    port: 6379
+
+log4j:
+  appender:
+    logfile:
+      Append: true
+
+test:
+  properties:
+    name: yrw
