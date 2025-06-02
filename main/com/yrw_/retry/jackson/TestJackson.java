@@ -1,28 +1,33 @@
-package com.yrw_.retry;
+package com.yrw_.retry.jackson;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
-import com.yrw_.retry.jackson.GetOrderInfosRequestType;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.Optional;
 
-public class TestAtomic {
+public class TestJackson {
 
     public static void main(String[] args) {
+
+        GetOrderInfosRequestType getOrderInfosRequestType1 = new GetOrderInfosRequestType();
+        String s = String.valueOf(getOrderInfosRequestType1.getCode());
+        System.out.println(s);
+
+        String string = BigDecimal.ZERO.toString();
+        int i = BigDecimal.ZERO.intValue();
+        System.out.println(i);
+        System.out.println(string);
+
         Map<String,Object> reqJsonObj = new HashMap<>();
         List<Map<String, Object>> sourceOrderIds = new ArrayList<>();
         Map<String,Object> sourceOrderId = new HashMap<>();
         sourceOrderId.put("sourceOrderId", "1132567045024556");
-        sourceOrderId.put("SourceOrderType", 1);
+        sourceOrderId.put("sourceOrderType", 1);
         sourceOrderIds.add(sourceOrderId);
 
         reqJsonObj.put("sourceOrderIds", sourceOrderIds);

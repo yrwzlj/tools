@@ -27,10 +27,6 @@ public class RedisConfig {
         return redisMessageListenerContainer;
     }
 
-    @Bean
-    public KeyExpiredListener keyExpiredListener() {
-        return new KeyExpiredListener(this.redisMessageListenerContainer());
-    }
 
     @Bean
     public StringRedisTemplate stringRedisTemplate(RedisConnectionFactory redisConnectionFactory) {
