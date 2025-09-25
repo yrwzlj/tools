@@ -1,7 +1,12 @@
 package com.yrw_.retry;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 
 /**
  * @Author: rw.yang
@@ -9,56 +14,77 @@ import java.util.Map;
  **/
 class Solution {
 
-    Integer[] chars = new Integer[27];
+     public static class TreeNode {
+      int val;
+      TreeNode left;
+      TreeNode right;
+      TreeNode() {}
+      TreeNode(int val) { this.val = val; }
+      TreeNode(int val, TreeNode left, TreeNode right) {
+          this.val = val;
+          this.left = left;
+          this.right = right;
+      }
+  }
 
-    public String smallestEquivalentString(String s1, String s2, String baseStr) {
-        init(chars);
-        for (int i = 0; i < s1.length(); i++) {
-            char c1 = s1.charAt(i);
-            char c2 = s2.charAt(i);
-            int index1 = c1 - 'a';
-            int index2 = c2 - 'a';
-            int small = smallerChar(c1, c2);
-            combine(small - 'a', index1, index2);
-        }
 
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < baseStr.length(); i++) {
-            char c = baseStr.charAt(i);
-            int index = c - 'a';
-            int root = findRoot(index);
-            sb.append((char) (root + 'a'));
-        }
 
-        return sb.toString();
+    public static void main(String[] args) {
+        Solution solution = new Solution();
+
+        TreeNode treeNode1 = new TreeNode(4);
+        TreeNode treeNode2 = new TreeNode(2);
+        TreeNode treeNode3 = new TreeNode(3);
+        TreeNode treeNode4 = new TreeNode(1);
+
+        treeNode1.left = treeNode2;
+        treeNode2.left = treeNode3;
+        treeNode2.right = treeNode4;
+
+        solution.addOneRow(treeNode1, 1, 3);
     }
 
-    private void combine(int i, int index1, int index2) {
-        int root1 = findRoot(index1);
-        int root2 = findRoot(index2);
-        if (root1 < root2) {
-            chars[root2] = root1;
-        } else if (root1 > root2) {
-            chars[root1] = root2;
+    public TreeNode addOneRow(TreeNode root, int val, int depth) {
+        Queue<TreeNode> queue = new LinkedList<>();
+        int cur = 0;
+        TreeNode monitor = new TreeNode(-1);
+        monitor.left = root;
+        queue.add(monitor);
+
+
+        while (true) {
+            if (cur + 1 == depth) {
+                while (!queue.isEmpty()) {
+                    TreeNode node = queue.poll();
+                    TreeNode left = node.left;
+                    TreeNode right = node.right;
+                    TreeNode newLeft = new TreeNode(val);
+                    TreeNode newRight = new TreeNode(val);
+                    node.left = newLeft;
+                    node.right = newRight;
+                    newLeft.left = left;
+                    newRight.right = right;
+                }
+                break;
+            } else {
+                Queue<TreeNode> temp = new LinkedList<>();
+                while (!queue.isEmpty()) {
+                    TreeNode node = queue.poll();
+                    if (node.left != null) {
+                        temp.add(node.left);
+                    }
+                    if (node.right != null) {
+                        temp.add(node.right);
+                    }
+                }
+                queue = temp;
+            }
+            cur++;
         }
-    }
 
-    private int findRoot(int index1) {
-        if (chars[index1] != index1) {
-            return findRoot(chars[index1]);
-        }
 
-        return index1;
-    }
-
-    private void init(Integer[] chars) {
-        for (int i = 0; i < chars.length; i++) {
-            chars[i] = i;
-        }
+        return monitor.left;
     }
 
 
-    private Character smallerChar(Character a, Character b) {
-        return a < b ? a : b;
-    }
 }
